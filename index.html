@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>بوابة النتائج الإلكترونية </title>
+<style>
+*{box-sizing:border-box;font-family:Tahoma,Arial}
+body{margin:0;background:#e9edf3;direction:rtl;color:#1f2937}
+.topbar{background:#0a4aa0;color:#fff;padding:10px 0;text-align:center;font-size:19px;font-weight:700;border-bottom:3px solid #083b7a}
+.wrap{width:1000px;max-width:96%;margin:18px auto;background:#fff;border:1px solid #cfd6e4;border-radius:3px;box-shadow:0 3px 10px rgba(0,0,0,.08)}
+.notice{background:#fff7d6;color:#7a5b00;padding:8px;text-align:center;font-weight:700;border-bottom:1px solid #f3e7b3}
+.form{padding:14px 16px;border-bottom:1px solid #e5e9f2}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+label{display:block;font-size:12.5px;font-weight:700;margin-bottom:3px}
+select,input{width:100%;padding:6px 7px;border:1px solid #b9c3d6;border-radius:2px;font-size:13px}
+.actions{margin-top:10px;text-align:center}
+button{background:#0a4aa0;color:#fff;border:0;border-radius:2px;padding:7px 22px;font-size:13.5px;cursor:pointer}
+button:hover{background:#083b7a}
+#result{display:none;padding:14px 16px}
+.info{margin-bottom:8px;font-weight:700;font-size:13.5px}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th,td{border:1px solid #b9c3d6;padding:7px 6px;text-align:center}
+th{background:#eef3fb}
+.footer{padding:8px;text-align:center;color:#6b7280;font-size:12px;border-top:1px solid #e5e9f2}
+
+@media (max-width: 768px) {
+  .grid {grid-template-columns:1fr;}
+  table {display:block;overflow-x:auto;white-space:nowrap;}
+}
+
+
+.important-note{
+    margin:25px 0 15px;
+    text-align:center;
+}
+
+.note-title{
+    width:380px;
+    max-width:90%;
+    margin:0 auto 18px;
+    background:#dbe7f3;
+    color:#c4481f;
+    font-size:24px;
+    font-weight:bold;
+    font-family:"Traditional Arabic", Tahoma, Arial;
+    padding:5px 0;
+}
+
+.note-box{
+    background:#dbe7f3;
+    color:#0b49b4;
+    font-size:18px;
+    font-weight:bold;
+    font-family:"Traditional Arabic", Tahoma, Arial;
+    padding:8px 12px;
+    margin:18px auto;
+    width:96%;
+    line-height:1.5;
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">بوابة النتائج الإلكترونية </div>
+
+<div class="wrap">
+  <div class="notice">جامعة كفرالشيخ</div>
+  <div class="form">
+    <div class="grid">
+      <div>
+        <label>الكلية</label>
+        <select>
+          <option>العلاج الطبيعي</option>
+          <option>الهندسة</option>
+          <option>التجارة</option>
+        </select>
+      </div>
+      <div>
+        <label>الفرقة</label>
+        <select>
+          <option>الأولى</option><option>الثانية</option>
+          <option>الثالثة</option><option>الرابعة</option>
+        </select>
+      </div>
+      <div>
+        <label>كود الطالب</label>
+        <input id="code" />
+      </div>
+      <div>
+        <label>كلمة السر</label>
+        <input id="pass" type="password" />
+      </div>
+    </div>
+    <div class="actions">
+      <button type="button" onclick="showResult(event)">عرض النتيجة</button>
+    </div>
+  </div>
+
+  <div id="result">
+    <div class="info" id="studentInfo"></div>
+    <table>
+      <thead>
+        <tr>
+          <th>المقرر</th>
+          <th>الدرجة</th>
+          <th>التقدير</th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+
+
+  <div class="important-note">
+    <div class="note-title">تنويه هام :</div>
+
+    <div class="note-box">
+        يجب مراجعة النتيجة الرسمية التى يعتد بها بإدارة شئون الطلاب بالكلية .
+    </div>
+
+    <div class="note-box">
+        تقع صحة هذه البيانات على مسئولية الكلية دون أدنى مسئولية على مركز نظم المعلومات الإدارية .
+    </div>
+</div>
+  <div class="footer">نظام عرض النتائج </div>
+</div>
+
+<script>
+const STUDENTS = {
+ 
+  "1615120250100259": {
+    password: "314182",
+    name: "عبد الرحمن أيمن متولى السعيد محمود",
+    subjects: [
+      { name: "التشريح الادمي(2)", grade: 60 },
+      { name: "علم وظائف الاعضاء(2)", grade: 86 },   
+      { name: "علم دراسة الحركه", grade: 70 }, 
+      { name: "بيلوجيا الجزيئات", grade: 64 }, 
+     { name: "علم الامراض (1)", grade: 72 }, 
+      { name: "نشأة العلوم الطبيه", grade: 78 }, 
+      { name: "كيمياء حيويه (1)", grade: 60 },
+       { name: "علم الانسجه(2)", grade: 74}, 
+       { name: "حاسب الي ", grade: 77 },
+    ]
+  },
+
+
+   "1615120250100256": {
+    password: "313615",
+    name: "ابراهيم احمد محمد احمد محمد ",
+    subjects: [
+      { name: "التشريح الادمي(2)", grade: 60 },
+      { name: "علم وظائف الاعضاء(2)", grade: 86 },   
+      { name: "علم دراسة الحركه", grade: 70 }, 
+      { name: "بيلوجيا الجزيئات", grade: 76 }, 
+     { name: "علم الامراض (1)", grade: 72 }, 
+      { name: "نشأة العلوم الطبيه", grade: 78 }, 
+      { name: "كيمياء حيويه (1)", grade: 60 },
+       { name: "علم الانسجه(2)", grade: 74}, 
+       { name: "حاسب الي ", grade: 77 },
+    ]
+  },
+
+   "1615120250100268": {
+    password: "314112",
+    name: "فارس محمد اسماعيل شريف يوسف",
+    subjects: [
+      { name: "التشريح الادمي(2)", grade: 60 },
+      { name: "علم وظائف الاعضاء(2)", grade: 86 },   
+      { name: "علم دراسة الحركه", grade: 70 }, 
+      { name: "بيلوجيا الجزيئات", grade: 76 }, 
+     { name: "علم الامراض (1)", grade: 72 }, 
+      { name: "نشأة العلوم الطبيه", grade: 78 }, 
+      { name: "كيمياء حيويه (1)", grade: 60 },
+       { name: "علم الانسجه(2)", grade: 54}, 
+       { name: "حاسب الي ", grade: 77 },
+    ]
+  },
+};
+
+function gradeText(g){
+  if(g>=90) return "ممتاز";
+  if(g>=75) return "جيد جدًا";
+  if(g>=70) return "جيد";
+  if(g>=60) return "مقبول";
+  return "راسب";
+}
+
+function showResult(e){
+  if(e) e.preventDefault();
+
+  const code=document.getElementById('code').value.trim();
+  const pass=document.getElementById('pass').value.trim();
+
+  if(!STUDENTS[code] || STUDENTS[code].password!==pass){
+    alert("كود الطالب أو كلمة السر غير صحيحة");
+    return;
+  }
+
+  const st=STUDENTS[code];
+  const tbody=document.getElementById('rows');
+  tbody.innerHTML="";
+
+  st.subjects.forEach(s=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`
+      <td>${s.name}</td>
+      <td>${s.grade}</td>
+      <td>${gradeText(s.grade)}</td>`;
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById('studentInfo').innerText =
+    `اسم الطالب: ${st.name}`;
+
+  document.getElementById('result').style.display='block';
+}
+</script>
+
+</body>
+</html>
